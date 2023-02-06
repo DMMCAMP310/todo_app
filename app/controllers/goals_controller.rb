@@ -1,6 +1,6 @@
 class GoalsController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_goal, only: %i[ show edit update destroy ]
+  before_action :set_goal, only: [:show, :edit, :update, :destroy]
 
   # GET /goals or /goals.json
   def index
@@ -42,13 +42,13 @@ class GoalsController < ApplicationController
 
   private
   
-    def set_goal
-      @goal = current_user.goals.find_by(id: params[:id])
-      redirect_to(goals_url, alert: "ERROR!!") if @goal.blank?
-    end
+  def set_goal
+    @goal = current_user.goals.find_by(id: params[:id])
+    redirect_to(goals_url, alert: "ERROR!!") if @goal.blank?
+  end
 
-    
-    def goal_params
-      params.require(:goal).permit(:title, :user_id)
-    end
+  
+  def goal_params
+    params.require(:goal).permit(:title, :user_id)
+  end
 end
